@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <h2><%= article.title %> <br>
+    <small>Date Created: <%= article.date.strftime("%Y %m %d")%></small></h2>
+    <p><%= truncate(article.summary, length: 25, separator: ' ') %></p>
+    <p><%= article.source %></p>
+    <% unless article.tag_list.empty? %>
+        <p>Tagged: <%= article.tag_list.join(' ') %></p>
+    <% end %>
+    <div class="btn-group pull-right" role="group">
+        <%= link_to 'Show', article, class: "btn btn-default" %>
+
+        <%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-default" %>
+
+    </div>
+  </div>
+
+</div>
+
