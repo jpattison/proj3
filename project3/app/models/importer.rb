@@ -56,12 +56,27 @@ class Importer
           temp_article.tag_list.add(word)
 
         end
-
-
       end
-
     end
 
+    # Tag author
+    if temp_article.author.present?
+      temp_article.tag_list.add(temp_article.author)
+    end
+
+    # Tag words in title
+    if temp_article.title.present?
+      temp_article.title.split(" ").each do |word|
+        temp_article.tag_list.add(word)
+      end
+    end
+
+    # Tag alchemy entities
+    if temp_article.summary.present?
+      AlchemyAPI.key = "2542e026f603445ce9ca6460e8b3fd03bf785848"
+      a_concepts = AlchemyAPI::ConceptTagging.new.search(text: temp_article.summary)
+      a_concepts.each { |c| temp_article.tag_list.add(c['text'])}
+    end
 
   end
 

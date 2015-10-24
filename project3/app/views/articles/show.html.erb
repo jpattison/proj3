@@ -50,6 +50,14 @@
         <p><%= @article.link %></p>
       </div>
   <%end%>
+
+  <%unless @article.tag_list.nil?%>
+      <div class="panel-body">
+        <h4> Tags: </h4>
+        <p><%= @article.tag_list %></p>
+      </div>
+  <%end%>
+
 </div>
 
 
