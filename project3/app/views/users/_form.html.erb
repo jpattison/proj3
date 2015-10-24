@@ -15,6 +15,8 @@
         </div>
       <% end %>
 
+        <h3> General information </h3>
+
       <div class="form-group">
         <%= f.label :first_name %><br>
         <%= f.text_field :first_name, class: 'form-control' %>
@@ -24,7 +26,7 @@
           <%= f.label :last_name %><br>
           <%= f.text_field :last_name, class: 'form-control' %>
         </div>
-        <h3> enter email and password</h3>
+
         <div class="form-group">
           <%= f.label :email %><br>
           <%= f.text_field :email, class: 'form-control' %>
@@ -39,12 +41,13 @@
           <%= f.label :password_confirmation %><br>
           <%= f.password_field :password_confirmation, class: 'form-control' %>
         </div>
-        <h3> Anything else</h3>
+
         <div class="form-group">
           <%= f.label :username %><br>
+          <h5>  Note: username can't be changed </h5>
           <%= f.text_field :username, class: 'form-control' %>
         </div>
-
+              <h3> About you </h3>
         <div class="form-group">
           <%= f.label :interest_list %><br>
           <%= f.text_field :interest_list, class: 'form-control' %>
@@ -54,6 +57,7 @@
           <%= f.label :bio %><br>
           <%= f.text_field :bio, class: 'form-control' %>
         </div>
+              <h3> Period of interest </h3>
 
         <div class="form-group">
           <%= f.label "Start Date, use form YYYY-MM-DD" %><br>

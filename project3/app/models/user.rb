@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
     validates :email, format: { with: /(.+)@(.+).[a-z]{2,4}/, message: "%{value} is not a valid email" }
     validates :username, length: { minimum: 3 }
   validates_presence_of :start_date, :end_date, message: "is not of correct format or is not present"
+  validates :password, format: { with: /[\S]{8,}/, message: "must be at least eight non-whitespace characters" }
 
   # Users can have interests
   acts_as_taggable_on :interests
