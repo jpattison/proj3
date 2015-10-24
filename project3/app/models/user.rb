@@ -1,7 +1,6 @@
 # The_Digest Created by Jeremy Pattison jpattison@student.unimelb.edu.au 637841 on 20 sep 2015
 # Credit goes to Matt Blair and Edmund Kazmierczak for creating 'WordGram' which much of the code in this project
 # is based off.
-
 class User < ActiveRecord::Base
   require_relative "the_age.rb"
   require_relative "herald_sun.rb"
@@ -21,6 +20,8 @@ class User < ActiveRecord::Base
 
   #,useing secure password
   has_secure_password
+
+  has_many :emails
 
 
   # Find a user by email, then check the username is the same
@@ -57,5 +58,17 @@ class User < ActiveRecord::Base
 
     sbs_import=SbsImporter.new(self.start_date,self.end_date)
     sbs_import.scrape_article
+  end
+  #selects the artciles to send
+  def articles_to_email
+    emailed = self.emails.map{|email| email.article_id}
+    interests = Article.tagged_with(self.interest_list, :any => true).to_a
+    to_email = []
+    interests.each do |article|
+      if (not emailed.include? article.id) && to_email.length <= 10
+        to_email << article
+      end
+    end
+    return to_email
   end
 end

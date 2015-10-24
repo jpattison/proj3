@@ -15,14 +15,16 @@ class ArticlesController < ApplicationController
 
   def my_interests
     # Return list of all articles with a matching tag to the users interests
-    @articles = Article.tagged_with(current_user.interest_list, :any => true).to_a
+    @articles = get_interests current_user
     render 'index'
   end
   # GET /articles/1
   # GET /articles/1.json
   def show
   end
-
+  def get_interests user
+    return Article.tagged_with(user.interest_list, :any => true).to_a
+  end
 
 
 
