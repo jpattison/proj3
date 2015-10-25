@@ -16,12 +16,10 @@ class ArticlesController < ApplicationController
 
   def my_interests
     # Return list of all articles with a matching tag to the users interests
-<<<<<<< HEAD
+
     @articles = Article.tagged_with(current_user.interest_list, :any => true).to_a
     @articles = Kaminari.paginate_array(@articles).page(params[:page]).per(5)
-=======
-    @articles = get_interests current_user
->>>>>>> origin/master
+
     render 'index'
   end
   # GET /articles/1
