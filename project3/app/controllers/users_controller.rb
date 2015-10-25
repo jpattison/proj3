@@ -2,8 +2,8 @@
 # Credit goes to Matt Blair and Edmund Kazmierczak for creating 'WordGram' which much of the code in this project
 # is based off.
 
-
-class UsersController < ApplicationController
+require 'mandrill'
+class UsersController < HelperController
   # Class is a controller for all Users.
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user, only: [:edit, :update, :destroy]
@@ -86,9 +86,19 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-
-
+  def email
+    #uses send_email from HelperController to send email
+    sent = send_email current_user
+    respond_to do |format|
+      if not sent.nil?
+        format.html { redirect_to articles_path, notice: 'successfully Emailed.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
   private
 
     # Use callbacks to share common setup or constraints between actions.
