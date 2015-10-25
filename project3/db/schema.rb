@@ -25,8 +25,6 @@ ActiveRecord::Schema.define(version: 20151024030433) do
     t.datetime "updated_at", null: false
   end
 
-<<<<<<< HEAD
-=======
   create_table "emails", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "article_id"
@@ -37,7 +35,6 @@ ActiveRecord::Schema.define(version: 20151024030433) do
   add_index "emails", ["article_id"], name: "index_emails_on_article_id"
   add_index "emails", ["user_id"], name: "index_emails_on_user_id"
 
->>>>>>> origin/master
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"

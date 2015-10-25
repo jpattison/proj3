@@ -22,6 +22,13 @@ class ArticlesController < ApplicationController
 
     render 'index'
   end
+
+  def article_search
+    @articles = Article.search(article_params)
+    @articles = Kaminari.paginate_array(@articles).page(params[:page]).per(5)
+    render 'index'
+  end
+
   # GET /articles/1
   # GET /articles/1.json
   def show
@@ -55,5 +62,8 @@ class ArticlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
 
+  def article_params
+    params.require(:search)
+  end
 
 end

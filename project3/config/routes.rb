@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get '/interests', to: 'articles#my_interests', as: 'interests' # Shows articles that have been tagged with interests
 
+  get '/article_search', to: 'articles#article_search', as: 'article_search' # Shows articles that match search result
 
   resources :users, only: [:create, :new, :update, :destroy, :edit]
   resources :articles, only: [:destroy, :show, :index]
