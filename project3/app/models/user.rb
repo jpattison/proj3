@@ -114,6 +114,8 @@ class User < ActiveRecord::Base
         a_concepts = AlchemyAPI::ConceptTagging.new.search(text: temp_article.summary)
         a_concepts.each { |c| temp_article.tag_list.add(c['text'])}
       end
-    end
+      temp_article.save
+      end
+
   end
 end
