@@ -15,7 +15,11 @@
         </div>
       <% end %>
 
-        <h3> General information </h3>
+        <h3> General information </h3><br>
+        <div class="form-group">
+          <%= f.label :username%> <%= "Note: can't be changed" %><br>
+          <%= f.text_field :username, class: 'form-control' %>
+              </div>
 
       <div class="form-group">
         <%= f.label :first_name %><br>
@@ -42,11 +46,6 @@
           <%= f.password_field :password_confirmation, class: 'form-control' %>
         </div>
 
-        <div class="form-group">
-          <%= f.label :username %><br>
-          <h5>  Note: username can't be changed </h5>
-          <%= f.text_field :username, class: 'form-control' %>
-        </div>
               <h3> About you </h3>
         <div class="form-group">
           <%= f.label :interest_list %><br>
@@ -71,7 +70,7 @@
 
           <%= f.date_field :end_date, class: 'form-control'%>
 
-        </div>
+        </div><br>
 
 
 
