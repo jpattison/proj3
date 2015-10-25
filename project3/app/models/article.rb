@@ -51,18 +51,7 @@ class Article < ActiveRecord::Base
       end
       temp_answer=hash_answer.sort { |a, b| [a["score"], a["date"]] <=> [b["score"], b["date"]]}
       temp_answer.each { |key| answer.insert(0,key["article"])}
-#        if(a1[1]>a2[1])
-#         return -1
-#       end
-#       if(a1[1]<a2[1])
-#         return 1
-#       end
-#
-#       return 0
-#     end
-#     hash_answer.each do |key|
-#       answer.insert(-1,key[0])
-#     end
+
 
       return answer
     else

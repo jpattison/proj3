@@ -53,7 +53,7 @@ class SbsImporter < Importer
 
         if(temp_article.date <= @end && temp_article.date>=@start && is_unique(temp_article))
           #if article is with the start and end date insert into array and is unique
-          tag_article(temp_article)
+
           temp_article.save
 
 

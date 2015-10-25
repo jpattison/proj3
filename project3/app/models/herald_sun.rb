@@ -54,7 +54,7 @@ drewbolt_2782.xml"
 
           if(temp_article.date <= @end && temp_article.date>=@start && is_unique(temp_article))
             #if article is with the start and end date and unique insert into array
-            tag_article(temp_article) # tag article
+
             temp_article.save
 
 

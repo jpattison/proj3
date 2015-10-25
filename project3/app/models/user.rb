@@ -41,22 +41,22 @@ class User < ActiveRecord::Base
 
   # Scrapes through a set of news sites to make Article objects
   def scrape_articles
-    age_import=AgeImporter.new(Date.today(),Date.today()-14)
+    age_import=AgeImporter.new(Date.today()-14,Date.today())
     age_import.scrape_article
-    sun_import=SunImporter.new(Date.today(),Date.today()-14)
+    sun_import=SunImporter.new(Date.today()-14,Date.today())
     sun_import.scrape_article
-    nyt_import=NytImporter.new(Date.today(),Date.today()-14)
+    nyt_import=NytImporter.new(Date.today()-14,Date.today())
     nyt_import.scrape_article
 
 
 
-    abc_import=AbcImporter.new(Date.today(),Date.today()-14)
+    abc_import=AbcImporter.new(Date.today()-14,Date.today())
     abc_import.scrape_article
 
-    smh_import=SmhImporter.new(Date.today(),Date.today()-14)
+    smh_import=SmhImporter.new(Date.today()-14,Date.today())
     smh_import.scrape_article
 
-    sbs_import=SbsImporter.new(Date.today(),Date.today()-14)
+    sbs_import=SbsImporter.new(Date.today()-14,Date.today())
     sbs_import.scrape_article
 
     tag_article()
@@ -76,8 +76,11 @@ class User < ActiveRecord::Base
 
   def tag_article
     # tags the article with the source name as well as proper nouns in the summary
-    Article.tagged_with(ActsAsTaggableOn::Tag.all.map(&:to_s), :exclude => true).each do |temp_article|
 
+      Article.find_each do |temp_article|
+      #  if !temp_article.tag_list.empty?
+      #    next
+      #  end
       # adds the source as a tag if present
       if temp_article.source.present?
         temp_article.tag_list.add(temp_article.source)
