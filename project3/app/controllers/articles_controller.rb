@@ -10,12 +10,14 @@ class ArticlesController < ApplicationController
 
   def index
     # Return list of all articles in order of date from newest to oldest
-    @articles = Article.order(:date).reverse_order
+    @articles = Article.order(:date).reverse_order.page(params[:page]).per(10)
+
   end
 
   def my_interests
     # Return list of all articles with a matching tag to the users interests
     @articles = Article.tagged_with(current_user.interest_list, :any => true).to_a
+    @articles = Kaminari.paginate_array(@articles).page(params[:page]).per(5)
     render 'index'
   end
   # GET /articles/1

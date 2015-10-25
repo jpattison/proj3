@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# Use kaminari pagination to limit number of articles on a page 
+gem 'kaminari'
 
 # Use Alchemy for alchemy gem in importer
 gem 'alchemy-api-rb', :require => 'alchemy_api'
