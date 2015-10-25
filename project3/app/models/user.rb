@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   require_relative "abc.rb"
   require_relative "smh.rb"
   require_relative "sbs.rb"
+  require_relative "guardian.rb"
+
   # Validations
   validates_presence_of :email, :first_name, :last_name, :username
     validates :email, format: { with: /(.+)@(.+).[a-z]{2,4}/, message: "%{value} is not a valid email" }
@@ -59,6 +61,8 @@ class User < ActiveRecord::Base
     sbs_import=SbsImporter.new(Date.today()-14,Date.today())
     sbs_import.scrape_article
 
+    guardian_import=GuardianImporter.new(Date.today()-14,Date.today())
+    guardian_import.scrape_article
     tag_article()
   end
   #selects the artciles to send
