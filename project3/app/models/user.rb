@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :first_name, :last_name, :username
     validates :email, format: { with: /(.+)@(.+).[a-z]{2,4}/, message: "%{value} is not a valid email" }
     validates :username, length: { minimum: 3 }
-  validates_presence_of :start_date, :end_date, message: "is not of correct format or is not present"
   validates :password, format: { with: /[\S]{8,}/, message: "must be at least eight non-whitespace characters" }
 
   # Users can have interests
@@ -42,23 +41,25 @@ class User < ActiveRecord::Base
 
   # Scrapes through a set of news sites to make Article objects
   def scrape_articles
-    age_import=AgeImporter.new(self.start_date,self.end_date)
+    age_import=AgeImporter.new(Date.today(),Date.today()-14)
     age_import.scrape_article
-    sun_import=SunImporter.new(self.start_date,self.end_date)
+    sun_import=SunImporter.new(Date.today(),Date.today()-14)
     sun_import.scrape_article
-    nyt_import=NytImporter.new(self.start_date,self.end_date)
+    nyt_import=NytImporter.new(Date.today(),Date.today()-14)
     nyt_import.scrape_article
 
 
 
-    abc_import=AbcImporter.new(self.start_date,self.end_date)
+    abc_import=AbcImporter.new(Date.today(),Date.today()-14)
     abc_import.scrape_article
 
-    smh_import=SmhImporter.new(self.start_date,self.end_date)
+    smh_import=SmhImporter.new(Date.today(),Date.today()-14)
     smh_import.scrape_article
 
-    sbs_import=SbsImporter.new(self.start_date,self.end_date)
+    sbs_import=SbsImporter.new(Date.today(),Date.today()-14)
     sbs_import.scrape_article
+
+    tag_article()
   end
   #selects the artciles to send
   def articles_to_email
@@ -71,5 +72,45 @@ class User < ActiveRecord::Base
       end
     end
     return to_email
+  end
+
+  def tag_article
+    # tags the article with the source name as well as proper nouns in the summary
+    Article.tagged_with(ActsAsTaggableOn::Tag.all.map(&:to_s), :exclude => true).each do |temp_article|
+
+      # adds the source as a tag if present
+      if temp_article.source.present?
+        temp_article.tag_list.add(temp_article.source)
+      end
+
+      # Tag proper nouns in the summary
+      if temp_article.summary.present?
+        temp_article.summary.split(" ").each do |word|
+          if((word.match /[A-Z][a-z]*/).to_s.length>1)
+            temp_article.tag_list.add(word)
+
+          end
+        end
+      end
+
+      # Tag author
+      if temp_article.author.present?
+        temp_article.tag_list.add(temp_article.author)
+      end
+
+      # Tag words in title
+      if temp_article.title.present?
+        temp_article.title.split(" ").each do |word|
+          temp_article.tag_list.add(word)
+        end
+      end
+
+      # Tag alchemy entities
+      if temp_article.summary.present?
+        AlchemyAPI.key = "2542e026f603445ce9ca6460e8b3fd03bf785848"
+        a_concepts = AlchemyAPI::ConceptTagging.new.search(text: temp_article.summary)
+        a_concepts.each { |c| temp_article.tag_list.add(c['text'])}
+      end
+    end
   end
 end

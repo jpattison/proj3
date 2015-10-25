@@ -23,15 +23,6 @@ class UsersController < HelperController
 
   def create
 
-    #Ensure that the Date in parameters is in the correct format
-    begin
-      user_params["start_date"]=Date.parse(user_params["start_date"])
-      user_params["end_date"]=Date.parse(user_params["end_date"])
-    rescue ArgumentError
-      # In scenario that date was not in correct format
-      user_params["start_date"]=nil
-      user_params["end_date"]=nil
-    end
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
@@ -50,14 +41,7 @@ class UsersController < HelperController
   def update
 
     # Ensure that the date in parameters is in correct format
-    begin
-      user_params["start_date"]=Date.parse(user_params["start_date"])
-      user_params["end_date"]=Date.parse(user_params["end_date"])
-    rescue ArgumentError
-      # In scenario that the date was not in correct format
-      user_params["start_date"]=nil
-      user_params["end_date"]=nil
-    end
+
 
     respond_to do |format|
       if @user.update(user_params)
@@ -117,6 +101,6 @@ class UsersController < HelperController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :bio, :username, :password, :password_confirmation, :interest_list, :start_date, :end_date)
+      params.require(:user).permit(:first_name, :last_name, :email, :bio, :username, :password, :password_confirmation, :interest_list)
     end
 end

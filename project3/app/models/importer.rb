@@ -41,44 +41,7 @@ class Importer
 
   end
 
-  def tag_article temp_article
-    # tags the article with the source name as well as proper nouns in the summary
 
-    # adds the source as a tag if present
-    if temp_article.source.present?
-      temp_article.tag_list.add(temp_article.source)
-    end
-
-    # Tag proper nouns in the summary
-    if temp_article.summary.present?
-      temp_article.summary.split(" ").each do |word|
-        if((word.match /[A-Z][a-z]*/).to_s.length>1)
-          temp_article.tag_list.add(word)
-
-        end
-      end
-    end
-
-    # Tag author
-    if temp_article.author.present?
-      temp_article.tag_list.add(temp_article.author)
-    end
-
-    # Tag words in title
-    if temp_article.title.present?
-      temp_article.title.split(" ").each do |word|
-        temp_article.tag_list.add(word)
-      end
-    end
-
-    # Tag alchemy entities
-    if temp_article.summary.present?
-      AlchemyAPI.key = "2542e026f603445ce9ca6460e8b3fd03bf785848"
-      a_concepts = AlchemyAPI::ConceptTagging.new.search(text: temp_article.summary)
-      a_concepts.each { |c| temp_article.tag_list.add(c['text'])}
-    end
-
-  end
 
   # Returns http addresses from a string
   def get_http string

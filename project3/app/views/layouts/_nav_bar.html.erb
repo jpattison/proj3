@@ -30,7 +30,7 @@
           <%# http://stackoverflow.com/questions/31029976/how-do-i-connect-my-rails-search-form-with-the-bootstrap-search-design%>
           <div class="navbar-form navbar-right">
             <%= form_tag "/article_search", :method => 'get', class: 'input-group'  do %>
-                <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search for 2 ...' %>
+                <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search Articles' %>
                 <span class="input-group-btn">
                 <%= submit_tag "Search 2", class: 'btn btn-default' %>
               </span>
